@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-pj)ti5o27(=)3ant8w3vw003y^dak7w)caw)9x_1tlt#$!uml9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*','https://kushtiapolytechnic-notice-board.up.railway.app']
 
 
 # Application definition
