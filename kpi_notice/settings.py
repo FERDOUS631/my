@@ -14,6 +14,7 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 CSRF_TRUSTED_ORIGINS = ['https://kpinoticeboard.up.railway.app']
 
 # Quick-start development settings - unsuitable for production
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-pj)ti5o27(=)3ant8w3vw003y^dak7w)caw)9x_1tlt#$!uml9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['kpinoticeboard.up.railway.app', 'localhost', '127.0.0.1', '*']
 
 
 # Application definition
