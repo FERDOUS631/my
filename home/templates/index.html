@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+
+{% block title %} - হোম{% endblock %}
+
+{% block content %}
+  <header class="hero-section " style="background: url('{{ MEDIA_URL }}image/kushtia_polytechnic.jpg');">
+        <div class="container">
+            <h2>Unofficial Digital Notice Board</h2>
+            <p>কুষ্টিয়া পলিটেকনিক ইনস্টিটিউটের সকল বিভাগীয় নোটিশ এবং তথ্যের কেন্দ্রস্থল</p>
+        </div>
+
+
+
+    </header>
+
+    <!-- Main Content -->
+     <section class="main-content ">
+              <div class="bg-dark text-white p-2 mt-3">
+    <div class="container d-flex">
+            <span class="badge bg-danger p-2 me-2">নোটিশ:</span>
+
+        {% for headlines in headlines %}
+        <marquee behavior="scroll" direction="left" scrollamount="7" onmouseover="this.stop();" onmouseout="this.start();">
+                  {{ headlines.text }}
+        </marquee>
+        {% endfor %}
+     
+
+     </div>
+     </section>
+
+    <main class="container main-content">
+        <div class="row g-4">
+            <!-- Left Column: Notice Tabe -->
+            <div class="col-lg-8">
+                <div class="notice-card">
+                    <div class="card-header-custom">
+                        <h3 class="m-0 h5 fw-bold text-success">
+                            <span class="status-dot"></span> সাম্প্রতিক নোটিশসমূহ
+                        </h3>
+                        <span class="badge bg-light text-dark border" id="notice-count">Loading...</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover m-0">
+                            <thead>
+                                <tr>
+                                    <th>SL</th>
+                                    <th>বিষয়</th>
+                                    <th>ডিপার্টমেন্ট</th>
+                                    <th>তারিখ</th>
+                                    <th class="text-center">অ্যাকশন</th>
+                                </tr>
+                            </thead>
+                            <tbody id="notice-table-body">
+                                <!-- Data injected by JS -->
+                            </tbody>
+                                    </table>
+
+                          <nav class="p-3 border-top bg-light">
+                                    <ul class="pagination pagination-sm justify-content-center m-0" id="pagination-wrapper"></ul>
+                            </nav>
+                    </div>
+                    <div class="p-3 bg-light text-center">
+                        <small class="text-muted">কারিগরি শিক্ষাই সমৃদ্ধির চাবিকাঠি</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Sidebar -->
+            <div class="col-lg-4">
+                <!-- Search -->
+                <div class="sidebar-card">
+                    <div class="sidebar-title">অনুসন্ধান করুন</div>
+                    <div class="search-box">
+                        <i class="fa fa-search"></i>
+                        <input type="text" id="notice-search" class="form-control" placeholder="নোটিশের বিষয় খুঁজুন...">
+                    </div>
+                </div>
+
+                <!-- Department Filter -->
+                <div class="sidebar-card" style="border-top-color: var(--primary-green);">
+                    <div class="sidebar-title">বিভাগীয় ফিল্টার</div>
+                    <div class="d-flex flex-column" id="filter-container">
+                   
+                        {% for dept in departments %}
+                        <button class="filter-btn" data-filter="{{ dept.name }}">
+                            {{ dept.name }} <i class="fa fa-chevron-right small opacity-50"></i>
+                        </button>
+                        {% endfor %}
+
+                    </div>
+                </div>
+
+                <!-- Contact Shortcut -->
+                <div class="bg-success text-white p-4 rounded-4 shadow-sm position-relative overflow-hidden">
+                    <div style="position: absolute; right: -20px; top: -20px; opacity: 0.1;">
+                        <i class="fa fa-phone-alt fa-6x"></i>
+                    </div>
+                    <h5 class="fw-bold mb-3">জরুরি প্রয়োজনে</h5>
+                    <p class="small opacity-75 mb-4">অফিস চলাকালীন সময়ে যেকোনো তথ্যের জন্য সরাসরি যোগাযোগ করুন।</p>
+                    {% for phone_email in phone_email %}
+                    <a href="tel:{{ phone_email.phone }}" class="btn btn-light btn-sm fw-bold px-4 py-2">কল করুন</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Notice Modal -->
+    <div class="modal fade" id="noticeModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header-custom">
+                    <div class="d-flex justify-content-between align-items-start w-100">
+                        <div>
+                            <span class="badge bg-white text-success mb-2 fw-bold px-3 py-2 text-uppercase" id="modal-dept"></span>
+                            <h2 class="h4 fw-bold m-0" id="modal-subject"></h2>
+                        </div>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="notice-meta">
+                        <span><i class="fa fa-calendar-alt me-2 text-danger"></i> তারিখ: <b id="modal-date"></b></span>
+                        <span><i class="fa fa-user me-2 text-danger"></i> লেখক: <b id="modal-author"></b></span>
+                    </div>
+                    <hr>
+                    <div class="mt-4 text-secondary leading-relaxed" id="modal-description" style="font-size: 1.1rem; line-height: 1.8;">
+                    </div>
+                    <div class="mt-5 d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-light p-2 rounded-circle me-3">
+                                <i class="fa fa-shield-alt text-success fa-2x"></i>
+                            </div>
+                            <div>
+                                <h6 class="m-0 fw-bold">অফিসিয়াল নোটিশ</h6>
+                                <small class="text-muted">KPI Digital Archive</small>
+                            </div>
+                        </div>
+                    <a href="" target="_blank" class="btn btn-admin px-5 py-3 shadow-lg" id="pdf">
+                       <i class="fa fa-file-pdf me-2"></i> ডাউনলড পিডিএফ (PDF)
+                    </a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

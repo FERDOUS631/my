@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %} - রেজাল্ট অনুসন্ধান{% endblock %}
+
+{% block content %}
+<div class="bg-light py-4 mt-5 mb-5">
+    <div class="container mt-5 mb-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+
+                <!-- Search Form -->
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white text-center">
+                        <h4>Search Student Result</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="{% url 'search_result' %}">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="roll" class="form-label">Enter Roll Number:</label>
+                                <input type="number" name="roll" id="roll" class="form-control" placeholder="Roll Number" required>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-success">Search</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Result Section -->
+                <div class="mt-4">
+                    {% if result %}
+                        <div class="card border-success shadow">
+                            <div class="card-header bg-success text-white">
+                                <h5>Result for Roll: {{ result.roll }}</h5>
+                            </div>
+                            <div class="card-body">
+                                {% comment %} Check if at least one GPA exists {% endcomment %}
+                                {% if result.gpa1 or result.gpa2 or result.gpa3 or result.gpa4 or result.gpa5 %}
+                                    <table class="table table-bordered">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th>Semester</th>
+                                                <th>GPA</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% if result.gpa1 %}<tr><td>1st Semester</td><td>{{ result.gpa1 }}</td></tr>{% endif %}
+                                            {% if result.gpa2 %}<tr><td>2nd Semester</td><td>{{ result.gpa2 }}</td></tr>{% endif %}
+                                            {% if result.gpa3 %}<tr><td>3rd Semester</td><td>{{ result.gpa3 }}</td></tr>{% endif %}
+                                            {% if result.gpa4 %}<tr><td>4th Semester</td><td>{{ result.gpa4 }}</td></tr>{% endif %}
+                                            {% if result.gpa5 %}<tr><td>5th Semester</td><td>{{ result.gpa5 }}</td></tr>{% endif %}
+                                        </tbody>
+                                    </table>
+                                {% else %}
+                                    <p class="text-center text-muted">No Result Available</p>
+                                {% endif %}
+                                <p class="text-muted small">* This result will disappear if you refresh the page.</p>
+                            </div>
+                        </div>
+                    {% elif error %}
+                        <div class="alert alert-danger text-center shadow" role="alert">
+                            {{ error }}
+                        </div>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,130 @@
+{% load static %}
+{% get_media_prefix as MEDIA_URL %}
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>কুষ্টিয়া পলিটেকনিক ইনস্টিটিউট - ডিজিটাল নোটিশ বোর্ড {% block title %}{% endblock %}</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts: Hind Siliguri -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+<body>
+
+    <!-- Header -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+                <div class="logo-circle">
+                    <img src='{{ MEDIA_URL }}image/kushtia_poly_logo.png' alt="Logo">
+                </div>
+                <div>
+                    <h1>কুষ্টিয়া পলিটেকনিক ইনস্টিটিউট</h1>
+                    <p>Kushtia Polytechnic Institute</p>
+                </div>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">হোম</a></li>
+                   
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            ডিপার্টমেন্ট
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            {% for dept in departments %}
+                            <li style="font-style: 2rem; width: 90%;"><a class="dropdown-item filter-btn" href="#" data-filter="{{ dept.name }}">{{ dept.name }}</a></li>
+                            {% endfor %}
+
+                        </ul>
+                    </li>
+
+                    <li class="nav-item"><a class="nav-link" href="{% url 'notice_board' %}">নোটিশ বোর্ড</a></li>
+                    
+                    <li class="nav-item ms-lg-3">
+                       <a href="{% url 'search_result' %}"><button class="btn btn-admin mt-2 mt-lg-0">রেজাল্ট পোর্টাল</button></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- main section -->
+
+        {% block content %}
+        {% endblock %}
+
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-4">
+                    <h4>আমাদের ঠিকানা</h4>
+                    <p class="d-flex gap-3">
+                        <i class="fa fa-map-marker-alt text-danger mt-1"></i>
+                        <span>কুষ্টিয়া পলিটেকনিক ইনস্টিটিউট<br>মীর মোশাররফ হোসেন রোড , কুষ্টিয়া - ৭০০০ </span>
+                    </p>
+                        {% for phone_email in phone_email %}
+                    <p class="d-flex gap-3">
+                        <i class="fa fa-phone text-danger"></i>
+                        <span>{{ phone_email.phone }}</span>
+                    </p>
+                
+                    <p class="d-flex gap-3">
+                        <i class="fa fa-envelope text-danger"></i>
+                        <span>{{ phone_email.email }}</span>
+                    </p>
+                    {% endfor %}
+                </div>
+                <div class="col-lg-4">
+                    <h4>গুরুত্বপূর্ণ লিঙ্ক</h4>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="https://bteb.gov.bd" class="footer-link">কারিগরি শিক্ষা বোর্ড (BTEB)</a></li>
+                        <li class="mb-2"><a href="https://moedu.gov.bd/" class="footer-link">শিক্ষা মন্ত্রণালয়</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link">অনলাইন ভর্তি তথ্য</a></li>
+                        <li class="mb-2"><a href="{% url 'search_result' %}" class="footer-link">রেজাল্ট পোর্টাল</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h4>আমাদের অবস্থান</h4>
+                    <div class="rounded-4 overflow-hidden" style="opacity: 0.6; height: 150px;">
+                        <!-- <img src="https://picsum.photos/seed/location/400/200" class="w-100 h-100 object-fit-cover" alt="Map">
+                          -->
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d58362.58759357971!2d89.06195640563966!3d23.901611145583704!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39fe96ffebed11d3%3A0x66ad1eecbf40b656!2sKushtia%20Polytechnic%20Institute!5e0!3m2!1sen!2sbd!4v1769079983176!5m2!1sen!2sbd" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+            </div>
+            <hr class="mt-5 border-secondary">
+            <p class="text-center mt-4 small">
+                © ২০২৬ কুষ্টিয়া পলিটেকনিক ইনস্টিটিউট। সর্বস্বত্ব সংরক্ষিত। 
+                <span style="display: block;">
+                ডিজাইন ও ডেভেলপমেন্ট:Ferdous Reza
+                </span>
+            </p>
+           
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+   
+   <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>
